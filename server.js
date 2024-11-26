@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const segmentsRoutes = require("./routes/segmentRoute");
@@ -5,7 +6,6 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const playerRoutes = require("./routes/playerRoute");
 const app = express();
-require("dotenv").config();
 
 // dotenv
 
