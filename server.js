@@ -9,10 +9,18 @@ const app = express();
 
 // dotenv
 
+// app.use(cors());
+const corsOptions = {
+  origin: "*", // You might want to change this to a specific domain in production for security reasons
+  methods: ["GET", "POST", "PATCH", "DELETE", "PUT"], // Explicitly allow PATCH
+  allowedHeaders: ["Content-Type", "Authorization"], // Allow Content-Type and Authorization headers
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors()); // Apply CORS middleware here
 
 // Database connection
 const dbURI = process.env.CONNECT_STRING;
@@ -30,6 +38,18 @@ mongoose
     })
   )
   .catch((err) => console.log(err));
+
+// middleware
+app.use(express.json());
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
+});
+app.use(express.urlencoded({ extended: true }));
+
+app.get("/", (req, res) => {
+  res.json({ mssg: "Welcome to the app" });
+});
 
 // Routes
 app.use(segmentsRoutes);
